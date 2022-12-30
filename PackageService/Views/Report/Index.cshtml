@@ -1,0 +1,114 @@
+﻿@model PaginatedList<PackageService.Models.Report>
+
+@{
+    ViewData["Title"] = "Raporlar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="text-center text-success">Raporlar</h2>
+<br /><br />
+      <div class="row justify-content-center">
+          <a asp-action="Index" class="btn btn-primary col-2">Tüm Listeye Dön</a>
+          <a class="btn btn-primary col-2 ms-3" onclick="showPopUp();">Z Raporu Çıkart</a>
+      </div>
+<form asp-action="Index" method="get">
+    <div class="d-grid form-actions no-color justify-content-center mt-3">
+        <input type="text" name="SearchString" class="form-control" value="@ViewData["CurrentFilter"]" placeholder="Ara" />
+        <input type="submit" value="Ara" class="btn btn-block btn-outline-secondary mt-1" />
+    </div>
+</form>
+
+<form asp-controller="Report"
+      asp-action="Delete" method="post">
+    <div class="d-grid gap-2 d-flex justify-content-between">
+        <div class="form-check mt-1">
+            <input type="checkbox" onclick="selectAll()" id="allSelect" class="form-check-input" /><label for="allSelect" class="text-muted form-check-label">Tümünü Seç</label>
+        </div>
+        <input type="submit" name="submit" class="btn btn-primary pull-right" value="Seçili Raporları Temizle">
+    </div>
+    <ul>
+        <li>Toplam tutar: ₺@ViewData["Total"]</li>
+        <li id="selected" style="display:none;"></li>
+    </ul>
+    <table class="table table-bordered table-hover text-center">
+        <thead>
+            <tr>
+                <th class="text-center">
+                    Seç
+                </th>
+                <th class="text-center">
+                    <a asp-action="Index" asp-route-sortOrder="@ViewData["IdSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">@Html.DisplayNameFor(model => model.FirstOrDefault().Id)</a>
+                </th>
+                <th class="text-center">
+                    <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">@Html.DisplayNameFor(model => model.FirstOrDefault().Date)</a>
+                </th>
+                <th class="text-center">
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().Time)
+                </th>
+                <th class="text-center">
+                    <a asp-action="Index" asp-route-sortOrder="@ViewData["VehicleSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">@Html.DisplayNameFor(model => model.FirstOrDefault().VehicleId)</a>
+                </th>
+                <th class="text-center">
+                    <a asp-action="Index" asp-route-sortOrder="@ViewData["AddressSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">@Html.DisplayNameFor(model => model.FirstOrDefault().Address)</a>
+                </th>
+                <th class="text-center">
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().Items)
+                </th>
+                <th class="text-center">
+                    <a asp-action="Index" asp-route-sortOrder="@ViewData["PriceSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">@Html.DisplayNameFor(model => model.FirstOrDefault().Total)</a>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (var i = 0; i < Model.Count; i++)
+            {
+                <tr>
+                    <td>
+                        <input id="checkbox @i" class="form-check-input" name="ids" onclick="selectCheckbox(this.checked)" type="checkbox" value="@Model[i].Id">
+                        <input type="hidden" asp-for="@Model[i].Id" />
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => @Model[i].Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => @Model[i].Date)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => @Model[i].Time)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => @Model[i].Vehicle.Name)
+                    </td>
+                    <td class="w-25">
+                        @Html.DisplayFor(modelItem => @Model[i].Address)
+                    </td>
+                    <td class="w-25">
+                        @Html.DisplayFor(modelItem => @Model[i].Items)
+                    </td>
+                    <td id="price @Model[i].Id">
+                        ₺@Html.DisplayFor(modelItem => @Model[i].Total)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</form>
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+<a asp-action="Index"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-pageNumber="@(Model.PageIndex - 1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   class="btn btn-primary @prevDisabled">
+    Önceki
+</a>
+<a asp-action="Index"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-pageNumber="@(Model.PageIndex + 1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   class="btn btn-primary @nextDisabled">
+    Sonraki
+</a>

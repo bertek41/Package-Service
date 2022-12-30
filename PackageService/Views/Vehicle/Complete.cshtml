@@ -1,0 +1,44 @@
+﻿@model List<PackageService.Models.Item>
+
+@{
+    ViewData["Title"] = Model == null ? "Yüklendi" : "Silindi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@if (Model == null)
+{
+        <br />
+        <h3 class="text-center text-success">Yüklemeler @TempData["Name"] adlı araçtan silindi</h3>
+        <br />
+        <p id="text" class="text-success"></p>
+        <br />
+        <div>
+            <a asp-action="LoadItem" asp-route-id="@TempData["Id"]" class="btn btn-primary text-center">Yüklemeye dön</a>
+        </div>
+        <br />
+        <div>
+            <a asp-action="Index" class="btn btn-primary text-center">Listeye dön</a>
+        </div>
+}
+else
+{
+    <body onload="calculateLoad()">
+        <br />
+        <h3 class="text-center text-success">Belirtilen ürünler @TempData["Name"] adlı araca yüklendi:</h3>
+        <br />
+        <ul>
+            @for (var i = 0; i < Model.Count; i++)
+            {
+                <li id="entry @i" price="@Model[i].Price" amount="@Model[i].Amount">@Model[i].Amount adet @Model[i].Name</li>
+            }
+        </ul>
+        <p id="text" class="text-success"></p>
+        <br />
+        <div>
+            <a asp-action="LoadItem" asp-route-id="@TempData["Id"]" class="btn btn-primary text-center">Yüklemeye dön</a>
+        </div>
+        <br />
+        <div>
+            <a asp-action="Index" class="btn btn-primary text-center">Listeye dön</a>
+        </div>
+    </body>
+}

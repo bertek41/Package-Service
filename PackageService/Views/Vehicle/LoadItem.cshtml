@@ -1,0 +1,100 @@
+﻿@model List<PackageService.Models.Item>
+
+@{
+    ViewData["Title"] = "Yükleme Yap";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="text-center text-success">@ViewData["Name"] İsimli Araca Yükleme Yap</h2>
+
+<body onload="load('@ViewData["Items"]')">
+    <form asp-controller="Vehicle"
+          asp-action="LoadItem" method="post">
+        <br />
+        <div class="row justify-content-center">
+            <input type="submit" name="submit" value="Yükleme yap" class="btn btn-primary col-3" />
+        </div>
+            
+        <div class="form-actions row container justify-content-center">
+            <label for="targetAdress">Adres:</label>
+            <input name="address" id="targetAdress" type="text" class="form-control" value="@ViewData["Address"]">
+        </div>
+        <div style="line-height:100%;">
+            <br>
+        </div>
+        <p id="text" style="display:none;"></p>
+        <div class="overflow-auto table-height" style="height: 50vh;">
+            <table class="table table-bordered table-hover text-center" >
+                <thead>
+                    <tr>
+                        <th class="text-center">
+                            Yüklensin mi?
+                        </th>
+                        <th class="text-center">
+                            Adet
+                        </th>
+                        <th class="text-center">
+                            @Html.DisplayNameFor(model => model.FirstOrDefault().Name)
+                        </th>
+                        <th class="text-center">
+                            @Html.DisplayNameFor(model => model.FirstOrDefault().Price)
+                        </th>
+                        <th class="text-center">
+                            @Html.DisplayNameFor(model => model.FirstOrDefault().Description)
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (var i = 0; i < Model.Count; i++)
+                    {
+                        <tr>
+                            <td>
+                                 <input id="checkbox @i" class="form-check-input" onclick="calculate()" name="ids" type="checkbox" value="@Model[i].Id">
+                                 <input type="hidden" asp-for="@Model[i].Id" />
+                            </td>
+                            <td class="col-3">
+                                <div class="form-group">
+                                    @Html.EditorFor(model => @Model[i].Amount, new { htmlAttributes = new { @id = @i + "__Amount", onblur = "calculate()", @class="form-control text-center" } })
+                                </div>
+                            </td>
+                            <td id="name @i">
+                                @Html.DisplayFor(modelItem => @Model[i].Name)
+                                <input type="hidden" asp-for="@Model[i].Name" />
+                            </td>
+                            <td id="price">
+                                ₺@Html.DisplayFor(modelItem => @Model[i].Price)
+                                <input type="hidden" asp-for="@Model[i].Price" />
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => @Model[i].Description)
+                                <input type="hidden" asp-for="@Model[i].Description" />
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th class="text-center">
+                            Yüklensin mi?
+                        </th>
+                        <th class="text-center">
+                            Adet
+                        </th>
+                        <th class="text-center">
+                            @Html.DisplayNameFor(model => model.FirstOrDefault().Name)
+                        </th>
+                        <th class="text-center">
+                            @Html.DisplayNameFor(model => model.FirstOrDefault().Price)
+                        </th>
+                        <th class="text-center">
+                            @Html.DisplayNameFor(model => model.FirstOrDefault().Description)
+                        </th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </form>
+    <div>
+        <a asp-action="Index" class="btn btn-primary text-center">Listeye dön</a>
+    </div>
+</body>

@@ -1,0 +1,88 @@
+﻿@model IEnumerable<PackageService.Models.Report>
+@{
+    ViewData["Title"] = "Z Raporu";
+    Layout = null;
+}
+<html lang="en-US">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav class="navbar justify-content-center navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand">Paket Servis Araç Takip</a>
+                <div class="justify-content-end">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark">@DateTime.Now.Date.ToShortDateString()</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <h3 class="text-center">Z Raporu</h3>
+        <br />
+        <table class="table text-center">
+            <thead>
+                <tr>
+                    <th class="text-center">
+                        S. No
+                    </th>
+                    <th class="text-center">
+                        Rapor No
+                    </th>
+                    <th class="text-center">
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().Items)
+                    </th>
+                    <th class="text-center">
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().Total)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    int i = 1;
+                    foreach (Report report in Model)
+                    {
+                        <tr>
+                            <td>
+                                @i
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => report.Id)
+                            </td>
+                            <td class="w-25">
+                                @Html.DisplayFor(modelItem => report.Items)
+                            </td>
+                            <td>
+                                ₺@Html.DisplayFor(modelItem => report.Total)
+                            </td>
+                        </tr>
+                        i++;
+                    }
+                 }
+            </tbody>
+        </table>
+        <br />
+        <div class="d-grid justify-content-end">
+            <p>Toplam: ₺@Model.Sum(i => i.Total)</p>
+        </div>
+        <br />
+        <div class="d-grid justify-content-center">
+            <a id="printButton" class="btn btn-primary non-printable" onclick="document.title='Paket Servis Araç Takip Z Raporu @DateTime.Now.Date.ToShortDateString()'; window.print();">İndir</a>
+        </div>
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+</body>
+</html>

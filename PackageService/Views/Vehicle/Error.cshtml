@@ -1,0 +1,18 @@
+﻿
+@{
+    ViewData["Title"] = "Hata";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br />
+<h3 class="text-center text-danger">@ViewData["Error"]</h3>
+<br />
+<br />
+<div>
+    <a asp-action="LoadItem" asp-route-id="@TempData["Id"]" class="btn btn-primary text-center">Yüklemeye dön</a>
+</div>
+<br />
+<div>
+    <a asp-action="Index" class="btn btn-primary text-center">Listeye dön</a>
+</div>
+
