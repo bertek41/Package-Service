@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace PackageService.Models
 {
@@ -32,7 +28,7 @@ namespace PackageService.Models
         [AllowNull]
         public string? Description { get; set; }
 
-        [DefaultValue(-1)]
-        public int Amount { get; set; }
+        [Display(Name = "Stok")]
+        public int Stock { get; set; }
     }
 }

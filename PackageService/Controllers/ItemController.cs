@@ -24,7 +24,7 @@ namespace PackageService.Controllers
             CultureInfo culture = new CultureInfo("en-US");
             Thread.CurrentThread.CurrentCulture = culture;
             Thread.CurrentThread.CurrentUICulture = culture;
-			
+
             this.dbContext = dbContext;
         }
 

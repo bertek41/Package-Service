@@ -20,6 +20,9 @@
                 @Html.DisplayNameFor(model => model.FirstOrDefault().Price)
             </th>
             <th class="text-center">
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Stock)
+            </th>
+            <th class="text-center">
                 @Html.DisplayNameFor(model => model.FirstOrDefault().Description)
             </th>
             <th class="text-center">
@@ -36,6 +39,9 @@
                 </td>
                 <td>
                     ₺@Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Stock)
                 </td>
                 <td class="w-50">
                     @Html.DisplayFor(modelItem => item.Description)

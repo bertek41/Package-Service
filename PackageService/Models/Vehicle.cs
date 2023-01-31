@@ -21,6 +21,13 @@ namespace PackageService.Models
         [NotNull]
         public required string Name { get; set; }
 
+        [Display(Name = "Telegram Token")]
+        [AllowNull]
+        public string? Token { get; set; }
+        [Display(Name = "Telegram Chat Id")]
+        [AllowNull]
+        public long? ChatId { get; set; }
+
         [Display(Name = "Ürünler")]
         [AllowNull]
         public string? Items { get; set; }
