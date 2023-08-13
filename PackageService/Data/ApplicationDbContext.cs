@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
+using Microsoft.Extensions.Options;
 using PackageService.Models;
 
 namespace PackageService.Data
@@ -14,5 +16,8 @@ namespace PackageService.Data
         public DbSet<Vehicle> Vehicles { get; set; }
         public DbSet<Item> Items { get; set; }
         public DbSet<Report> Reports { get; set; }
+
+        public DbSet<VehicleItems> VehicleItems { get; set; }
+
     }
 }

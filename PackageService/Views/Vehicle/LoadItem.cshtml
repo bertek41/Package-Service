@@ -1,4 +1,4 @@
-﻿@model List<PackageService.Models.Item>
+﻿@model List<PackageService.Models.VehicleItems>
 
 @{
     ViewData["Title"] = "Yükleme Yap";
@@ -34,19 +34,25 @@
                             Adet
                         </th>
                         <th class="text-center">
-                            @Html.DisplayNameFor(model => model.FirstOrDefault().Name)
+                            @Html.DisplayNameFor(model => model.FirstOrDefault().Item.Name)
                         </th>
                         <th class="text-center">
-                            @Html.DisplayNameFor(model => model.FirstOrDefault().Price)
+                            @Html.DisplayNameFor(model => model.FirstOrDefault().Item.Price)
                         </th>
                         <th class="text-center">
-                            @Html.DisplayNameFor(model => model.FirstOrDefault().Description)
+                            @Html.DisplayNameFor(model => model.FirstOrDefault().Item.Stock)
+                        </th>
+                        <th class="text-center">
+                            @Html.DisplayNameFor(model => model.FirstOrDefault().Item.Description)
                         </th>
                     </tr>
                 </thead>
                 <tbody>
                     @for (var i = 0; i < Model.Count; i++)
                     {
+                        @Html.HiddenFor(model => @Model[i].ItemId)
+                        @Html.HiddenFor(model => @Model[i].Item.Id)
+                        @Html.HiddenFor(model => @Model[i].VehicleId)
                         <tr>
                             <td>
                                  <input id="checkbox @i" class="form-check-input" onclick="calculate()" name="ids" type="checkbox" value="@Model[i].Id">
@@ -54,20 +60,24 @@
                             </td>
                             <td class="col-3">
                                 <div class="form-group">
-                                    @Html.EditorFor(model => @Model[i].Amount, new { htmlAttributes = new { @id = @i + "__Amount", onblur = "calculate()", @class="form-control text-center" } })
+                                    @Html.EditorFor(model => @Model[i].Amount, new { htmlAttributes = new { @id = @i + "__Amount", onblur = "calculate()", onkeyup="enforceMinMax(this)", max = @Model[i].Item.Stock + @Model[i].Amount == 0 ? 1 : @Model[i].Item.Stock + @Model[i].Amount, @class="form-control text-center" } })
                                 </div>
                             </td>
                             <td id="name @i">
-                                @Html.DisplayFor(modelItem => @Model[i].Name)
-                                <input type="hidden" asp-for="@Model[i].Name" />
+                                @Html.DisplayFor(modelItem => @Model[i].Item.Name)
+                                <input type="hidden" asp-for="@Model[i].Item.Name" />
                             </td>
                             <td id="price">
-                                ₺@Html.DisplayFor(modelItem => @Model[i].Price)
-                                <input type="hidden" asp-for="@Model[i].Price" />
+                                ₺@Html.DisplayFor(modelItem => @Model[i].Item.Price)
+                                <input type="hidden" asp-for="@Model[i].Item.Price" />
+                            </td>
+                            <td id="stock">
+                                @Html.DisplayFor(modelItem => @Model[i].Item.Stock)
+                                <input type="hidden" asp-for="@Model[i].Item.Stock" />
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => @Model[i].Description)
-                                <input type="hidden" asp-for="@Model[i].Description" />
+                                @Html.DisplayFor(modelItem => @Model[i].Item.Description)
+                                <input type="hidden" asp-for="@Model[i].Item.Description" />
                             </td>
                         </tr>
                     }
@@ -81,13 +91,16 @@
                             Adet
                         </th>
                         <th class="text-center">
-                            @Html.DisplayNameFor(model => model.FirstOrDefault().Name)
+                            @Html.DisplayNameFor(model => model.FirstOrDefault().Item.Name)
                         </th>
                         <th class="text-center">
-                            @Html.DisplayNameFor(model => model.FirstOrDefault().Price)
+                            @Html.DisplayNameFor(model => model.FirstOrDefault().Item.Price)
                         </th>
                         <th class="text-center">
-                            @Html.DisplayNameFor(model => model.FirstOrDefault().Description)
+                            @Html.DisplayNameFor(model => model.FirstOrDefault().Item.Stock)
+                        </th>
+                        <th class="text-center">
+                            @Html.DisplayNameFor(model => model.FirstOrDefault().Item.Description)
                         </th>
                     </tr>
                 </tfoot>

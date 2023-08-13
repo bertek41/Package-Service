@@ -3,6 +3,13 @@
 
 // Write your JavaScript code.
 
+function enforceMinMax(el) {
+    if (el.value != "") {
+        if (parseInt(el.value) > parseInt(el.max)) {
+            el.value = el.max;
+        }
+    }
+}
 
 function load(items) {
     let map = new Map();
@@ -18,15 +25,16 @@ function load(items) {
     for (var i = 0; i < amounts.length; i++) {
         var amount = amounts[i].value;
         if (!amount || parseInt(amount) < 1) {
-            var name = document.getElementById("name " + i).innerText;
             amount = 1;
-            if (map.has(name)) {
-                amount = map.get(name);
-                document.getElementById("checkbox " + i).checked = true
-            }
-            document.getElementById(i + "__Amount").value = amount;
         }
+        var name = document.getElementById("name " + i).innerText;
+        if (map.has(name)) {
+            amount = map.get(name);
+            document.getElementById("checkbox " + i).checked = true;
+        }
+        document.getElementById(i + "__Amount").value = amount;
     }
+    calculate();
 }
 
 function calculate() {
